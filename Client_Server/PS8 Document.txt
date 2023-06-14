@@ -1,0 +1,41 @@
+
+Snakeclient: View
+
+These 3 classes can be used by both the client and the server.
+-Snake class
+-Wall class
+-Powerup class
+
+-Only GUI, no reference to the NetworkController
+-Key press hanlders (landing points)
+-Invoke controller methods that contain heavy logic
+____________________________________________________________________________
+GameController: Controller
+-Contain logic for parsing data received by the server
+-Update the model accordingly
+-Inform the View that the world has changed -> redraw (happen via event)
+
+SnakeClient:
+-Provide OnNetworkAction delegate for networking library
+
+Network Protocol:
+-Port 11000
+-Upon connection, send a single '\n' terminated string representing the player's name. 
+The name should be no longer than 16 characters (not including the newline)
+-Server will send two strings represening integer numbers and each terminated by a '\n'
+	The first number: player's ID
+	The second number: size of the world (width and height). All game wolrds are square
+-Then Server will send all of WALLS as JSON oject, seperated by a '\n'
+-Then Server send the current STATE of the rest of the game on every frame (snakes and powerups)
+-Ojbect are representing by strings (JSON object), in no particular order. Each object ends with '\n'
+-No guranteee that all object will be included in a single network send/receive operation
+-At any time after receiving its ID, the world size, and the walls, the client send a command request to the server.
+(should not send before receiving player's ID, world size, and walls)
+-Command request is a '\n' terminated string containing a JSON object
+(Should not send more than one command request object per frame)
+
+-If a snake or powerup is eliminated, the server sends the "dead" representation on the next frame
+-Handle the 'dead', Remove the alive version of the object.
+-All messages in the communication protocol (both ways) are terminated by a '\n'
+Add Reference .dll to where it needed
+Location: SnakeClient/Libraries/NetworkController.dll

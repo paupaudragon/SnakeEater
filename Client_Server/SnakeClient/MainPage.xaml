@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:snakegame="clr-namespace:SnakeGame;assembly=SnakeClient"
+             x:Class="SnakeGame.MainPage"
+             Focused="ContentPage_Focused">
+
+    <ContentPage.Resources>
+        <snakegame:WorldPanel x:Key="drawable1"
+                             x:Name="worldPanel"/>
+    </ContentPage.Resources>
+
+    <ContentPage.MenuBarItems>
+
+        <!--Menu Bar Settings-->
+        <MenuBarItem Text="Settings">
+            
+            <!--Under Settings: Theme-->
+            <MenuFlyoutSubItem Text="Themes">
+                <!--Under Theme: 1. Green Forest 2. Blue Pixel -->
+                <MenuFlyoutItem Text="Green Forest(Default)" Clicked ="SetDefaultTheme" />
+                <MenuFlyoutItem Text="Blue Pixel" Clicked ="SetBluePixelTheme" />
+            </MenuFlyoutSubItem>
+
+            <!--Under Settings: View Size-->
+            <MenuFlyoutSubItem Text="View Size">
+                <!--Under Theme: 1. 900 x 900 2. 600 600 3. 1200 x1200 -->
+                <MenuFlyoutItem Text="900 x 900(Default)"  Clicked ="SetDefaultSize" />
+                <MenuFlyoutItem Text="600 x 600"  Clicked ="SetSmallSize" />
+                <MenuFlyoutItem Text="1200 x 1200"  Clicked ="SetLargeSize" />
+            </MenuFlyoutSubItem>
+        </MenuBarItem>
+
+        <!--Menu Bar About-->
+        <MenuBarItem Text="About">
+            <MenuFlyoutItem Text="View About"  Clicked ="AboutClicked" />
+        </MenuBarItem>
+
+        <!--Menu Bar Help-->
+        <MenuBarItem Text="Help">
+            <MenuFlyoutItem Text="View Help" Clicked ="HelpClicked" />
+        </MenuBarItem>
+    </ContentPage.MenuBarItems>
+
+    <ScrollView>
+        <ScrollView.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnTapped" />
+        </ScrollView.GestureRecognizers>
+
+        <VerticalStackLayout x:Name="verticalStackLayout"
+                             Spacing="10"
+                             VerticalOptions="Center">
+            
+            <!-- Handshake and command GUI -->
+            <HorizontalStackLayout HorizontalOptions="Center">
+                <Label Text="server: " VerticalOptions="Center" />
+                <Entry Text="localhost" x:Name="serverText" />
+                <Label Text="name: " VerticalOptions="Center" />
+                <Entry Text="player" x:Name="nameText" />
+                <Button Text="connect"
+                        Clicked="ConnectClick"
+                        x:Name="connectButton"/>
+                <Entry MaxLength="1" IsVisible="true"
+                       TextChanged="OnTextChanged" x:Name="keyboardHack" />
+            </HorizontalStackLayout>
+
+            <!-- Game board area -->
+            <Border Stroke="#000000"
+                    StrokeThickness="4"
+                    StrokeShape="Rectangle"
+                    HorizontalOptions="Center">
+                <GraphicsView Drawable="{StaticResource drawable1}"
+                              x:Name="graphicsView"
+                              HeightRequest="900"
+                              WidthRequest="900" />
+            </Border>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
